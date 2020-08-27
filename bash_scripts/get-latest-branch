@@ -1,0 +1,19 @@
+#!/bin/bash
+
+BASE_BRANCH='develop'
+[ "$1" != "" ] && BASE_BRANCH=$1
+
+currentBranch="$(git branch | sed -n -e 's/^\* \(.*\)/\1/p')" #Check current branch
+echo -e "\e[35m=======================CURRENT BRANCH IS: $currentBranch=======================\e[0m"
+IS_BASE=''
+[ "$currentBranch" == $BASE_BRANCH ] && IS_BASE='TRUE'
+[ -z "$IS_BASE" ] && echo -e "\e[33m=======================SWITCHING TO $BASE_BRANCH =======================\e[0m"
+[ -z "$IS_BASE" ] && git stash push -u
+[ -z "$IS_BASE" ] && git checkout $BASE_BRANCH
+
+git pull
+git fetch --all -p
+
+[ -z "$IS_BASE" ] && echo -e "\e[33m=======================SWITCHING BACK TO $currentBranch =======================\e[0m"
+[ -z "$IS_BASE" ] && git checkout $currentBranch
+[ -z "$IS_BASE" ] && git stash pop

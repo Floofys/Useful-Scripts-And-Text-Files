@@ -1,0 +1,51 @@
+#! /bin/bash
+
+RepoFolder=''
+RepoAbbrev=''
+
+# Functions
+function error-out
+{
+  echo 1>&2 Error: $@
+  exit 1
+}
+
+function return-expanded-repo-directory
+{
+	case "$1" in
+		aut | AUT) RepoFolder=~/Repos/AutomatedTesting ;;
+		azure | AZURE) RepoFolder=~/Repos/Azure ;;
+		rel | REL) RepoFolder=~/Repos/Relativity ;;
+		roc | ROC) RepoFolder=~/Repos/RelativityOneChef ;;
+		roo | ROO) RepoFolder=~/Repos/RelativityOneOperations ;;
+		shar | SHAR) RepoFolder=~/Repos/SharedSql ;;
+		ten | TEN) RepoFolder=~/Repos/TenantService ;;
+		*) error-out "Invalid repo abbreviation" ;;
+	esac
+
+}
+
+# Params
+while getopts f:b:a: option
+do
+	case "${option}" in
+		a) RepoAbbrev=${OPTARG};;
+		b) Branch=${OPTARG};;
+		f) RepoFolder=${OPTARG};;
+	esac
+done
+
+#Body
+[ -z "$RepoAbbrev" ] && [ -z "$RepoFolder" ] && error-out "No project supplied"
+[ -n "$RepoAbbrev" ] && [ -z "$RepoFolder" ] && return-expanded-repo-directory $RepoAbbrev
+
+cd $RepoFolder
+
+for d in */ ; do
+	echo -e "\e[32m=======================CURRENT REPO IS: $d=======================\e[0m"
+	cd $RepoFolder/$d
+	[ -z "$Branch" ] && get-latest-robust
+	[ "$Branch" == "master" ] && get-latest-master
+	[ -n "$Branch" ] && get-latest-branch $Branch
+	cd ..
+done

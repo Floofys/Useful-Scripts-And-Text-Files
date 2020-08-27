@@ -1,0 +1,20 @@
+#!/bin/bash
+
+echo "Art thou sure? (y/n)"
+read resp
+[ "$resp" == "n" ] || [ -z "$resp" ] && exit
+statusVar=$(git status 2>&1)
+[[ "$statusVar" != *'nothing to commit, working tree clean'* ]] && echo "You're probably not done." && exit
+currentBranch="$(git branch | sed -n -e 's/^\* \(.*\)/\1/p')" #Check current branch
+IS_HOME=''
+[ "$currentBranch" == "develop" ] || [ "$currentBranch" == "master" ] && IS_HOME='TRUE'
+if [ -z "$IS_HOME" ]
+then
+	git checkout develop
+	git pull
+	git branch -d $currentBranch
+	git push origin --delete $currentBranch
+	git fetch --all -p
+else
+	echo "You're on $currentBranch ya dummy. What're you doing? You can't be done with a branch while you're on $currentBranch"
+fi

@@ -1,0 +1,45 @@
+#!/bin/bash
+
+# Functions
+function error-out
+{
+  echo 1>&2 Error: $@
+  exit 1
+}
+
+# Params
+while getopts a:n:l:d: option
+do
+	case "${option}" in
+		a) ProjecAbbrev=${OPTARG};;
+		n) userNameParam=${OPTARG};;
+		l) fullLoginParam=${OPTARG};;
+		d) dirName=${OPTARG};;
+	esac
+done
+
+[ -z "$ProjecAbbrev" ] && error-out "No project abbreviation entered. Exiting."
+user=''
+[ -n "$fullLoginParam" ] && user=$fullLoginParam
+[ -n "$userNameParam" ] && echo "Enter password: " && read -s userPass && user="${userNameParam}:${userPass}"
+[ -z "$user" ] && error-out "Need login info" 
+echo "This script creates lots of files because it'll clone all the repos in ${ProjecAbbrev}. Are you sure you want to run it? (y/n)" && read -r opt && [ "$opt" == "n" ] && exit
+repos=$(curl -iku $user "https://git.kcura.com/rest/api/1.0/projects/${ProjecAbbrev}/repos" | grep -Eo '"name":"[^"]+"' | awk -F ':' '{ print $2}')
+
+iter=0
+onlyRepos=()
+for repo in $repos
+do
+	[ $(($iter%3)) == 0 ] && onlyRepos+=($repo) 
+	(( iter++ ))
+done
+
+mkdir -p -- $dirName || mkdir -p -- $ProjecAbbrev
+cd "$_"
+for repo in ${onlyRepos[@]}
+do
+	parsedRepo="${repo%\"}"
+	parsedRepo="${parsedRepo#\"}"
+	url="ssh://git@git.kcura.com:7999/${ProjecAbbrev}/${parsedRepo}.git"
+	git clone $url
+done

@@ -1,0 +1,15 @@
+#!/bin/bash
+
+currentBranch="$(git branch | sed -n -e 's/^\* \(.*\)/\1/p')" #Check current branch
+IS_DEVELOP=''
+[ "$currentBranch" == "develop" ] && IS_DEVELOP='TRUE'
+[ -z "$IS_DEVELOP" ] && echo -e "\e[33m=======================SWITCHING TO DEVELOP=======================\e[0m"
+[ -z "$IS_DEVELOP" ] && git stash push -u
+[ -z "$IS_DEVELOP" ] && git checkout develop
+
+git pull
+git fetch --all -p
+git branch -D 'release-candidate'
+git push origin --delete 'release-candidate'
+git checkout -b 'release-candidate'
+git push origin release-candidate
