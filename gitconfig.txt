@@ -2,7 +2,10 @@
   name = BLevyCS
   email = brian@levysplace.us
 [core]
-  autocrlf = true
+  editor = vim
+  autocrlf = false
+	longpaths = true
+	quotepath = false
 [alias]
   co = checkout
   br = branch
