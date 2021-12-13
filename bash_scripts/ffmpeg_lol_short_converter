@@ -1,0 +1,27 @@
+#!/bin/bash
+
+FILE=$1
+Name="${FILE%%.*}"
+MainExtension="_main.mp4"
+StatsExtension="_stats.mp4"
+CamExtension="_cam.mp4"
+AbilitiesExtension="_abilities.mp4"
+HealthExtension="_health.mp4"
+MapExtension="_map.mp4"
+InventoryExtension="_inventory.mp4"
+DeathTimersExtension="_deathTimers.mp4"
+KdaExtension="_kda.mp4"
+ffmpeg -i $1 -filter:v "crop=850:880:535:0" $Name$MainExtension
+ffmpeg -i $1 -filter:v "crop=376:310:0:410" -an $Name$CamExtension
+ffmpeg -i $1 -filter:v "crop=168:138:353:938" -an $Name$StatsExtension
+ffmpeg -i $1 -filter:v "crop=425:75:678:945" -an $Name$AbilitiesExtension
+ffmpeg -i $1 -filter:v "crop=425:40:680:1025" -an $Name$HealthExtension
+ffmpeg -i $1 -filter:v "crop=280:280:1640:800" -an $Name$MapExtension
+ffmpeg -i $1 -filter:v "crop=190:68:1127:943" -an $Name$InventoryExtension
+ffmpeg -i $1 -filter:v "crop=280:153:1640:647" -an $Name$DeathTimersExtension
+ffmpeg -i $1 -filter:v "crop=370:35:1550:0" -an $Name$KdaExtension
+
+#"crop=out_w:out_h:x:y"
+#out_w is the width of the output rectangle
+#out_h is the height of the output rectangle
+#x and y specify the top left corner of the output rectangle
