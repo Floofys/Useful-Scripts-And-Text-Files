@@ -4,8 +4,8 @@
 [core]
   editor = vim
   autocrlf = false
-	longpaths = true
-	quotepath = false
+  longpaths = true
+  quotepath = false
 [alias]
   co = checkout
   br = branch
