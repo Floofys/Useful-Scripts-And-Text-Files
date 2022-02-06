@@ -8,12 +8,14 @@ FeedExtension="_feed.mp4"
 AmmoExtension="_ammo.mp4"
 HealthExtension="_health.mp4"
 MapExtension="_map.mp4"
-ffmpeg -i $1 -filter:v "crop=850:1080:535:0" $Name$MainExtension
-ffmpeg -i $1 -filter:v "crop=376:310:0:410" -an $Name$CamExtension
-ffmpeg -i $1 -filter:v "crop=400:105:1520:70" -an $Name$FeedExtension
-ffmpeg -i $1 -filter:v "crop=124:40:1700:1030" -an $Name$AmmoExtension
-ffmpeg -i $1 -filter:v "crop=384:40:25:1030" -an $Name$HealthExtension
-ffmpeg -i $1 -filter:v "crop=280:280:12:65" -an $Name$MapExtension
+ChatExtension="_chat.mp4"
+ffmpeg -i "$1" -filter:v "crop=850:1080:535:0" "$Name$MainExtension"
+ffmpeg -i "$1" -filter:v "crop=376:310:0:410" -an "$Name$CamExtension"
+ffmpeg -i "$1" -filter:v "crop=360:105:1555:70" -an "$Name$FeedExtension"
+ffmpeg -i "$1" -filter:v "crop=124:40:1700:1030" -an "$Name$AmmoExtension"
+ffmpeg -i "$1" -filter:v "crop=384:40:25:1030" -an "$Name$HealthExtension"
+ffmpeg -i "$1" -filter:v "crop=280:280:12:65" -an "$Name$MapExtension"
+ffmpeg -i "$1" -filter:v "crop=582:235:0:793" -an "$Name$ChatExtension"
 
 #"crop=out_w:out_h:x:y"
 #out_w is the width of the output rectangle
