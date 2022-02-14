@@ -11,7 +11,6 @@ choco install git -y
 choco install ccleaner -y
 choco install vim -y
 choco install steam -y
-choco install battle.net -y
 choco install minecraft -y
 choco install epicgameslauncher -y
 choco install discord -y
