@@ -1,0 +1,19 @@
+#!/bin/bash
+
+FILE=$1
+Name="${FILE%%.*}"
+MainExtension="_main.mp4"
+CamExtension="_cam.mp4"
+HealthBarExtension="_healthbar.mp4"
+MyBarsExtension="_mybars.mp4"
+MyItemsExtension="_myitems.mp4"
+ffmpeg -i "$1" -filter:v "crop=850:1080:535:0" "$Name$MainExtension"
+ffmpeg -i "$1" -filter:v "crop=353:310:0:410" -an "$Name$CamExtension"
+ffmpeg -i "$1" -filter:v "crop=1025:40:445:840" -an "$Name$HealthBarExtension"
+ffmpeg -i "$1" -filter:v "crop=421:117:48:29" -an "$Name$MyBarsExtension"
+ffmpeg -i "$1" -filter:v "crop=319:283:48:769" -an "$Name$MyItemsExtension"
+
+#"crop=out_w:out_h:x:y"
+#out_w is the width of the output rectangle
+#out_h is the height of the output rectangle
+#x and y specify the top left corner of the output rectangle
