@@ -1,0 +1,6 @@
+#!/bin/bash
+
+FILE=$1
+Name="${FILE%%.*}"
+MainExtension="_sound.mp3"
+ffmpeg -i "$1" -q:a 0 -map a "$Name$MainExtension"
