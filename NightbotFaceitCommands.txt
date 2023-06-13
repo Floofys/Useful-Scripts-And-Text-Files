@@ -1,6 +1,6 @@
 Here are the commands with my own username in them. Replace 'Floofys' with your name and it is case-sensitive. 
 
-!addcom !elo @$(user) -> $(eval message = ""; const api = $(urlfetch json http://api.faceit.myhosting.info:81/?&n=Floofys); if (api.error) { message += api.message;} else { message = 'Elo: ' + api.elo + ' Today -> Win:' + api.today.win + ' Lose:' + api.today.lose + ' Elo:' + api.today.elo ; if(api.today.elo < 0) { message += " 📉 " ;} else { message += " 📈 " ;} } message)	
+!addcom !elo @$(user) -> $(eval message = ""; const api = $(urlfetch json http://api.faceit.myhosting.info:81/?&n=Floofys); if (api.error) { message += api.message;} else { message = 'Level:' + api.level + ' Elo:' + api.elo + ' Today -> Win:' + api.today.win + ' Lose:' + api.today.lose + ' EloDelta:' + api.today.elo ; if(api.today.elo == 0){ message += " 💬 " } else if(api.today.elo < 0) { message += " 📉 " ;} else { message += " 📈 " ;} } message)
 
 !addcom !lastgame @$(user) -> $(eval message = ""; const api = $(urlfetch json http://api.faceit.myhosting.info:81/?&n=Floofys); if (api.error) { message += api.message;} else { message = 'Last game: ' + api.last_match.split(",")[0] + ' ' ; if(api.last_match.includes('Victory')) { message += " GG EZ " ;} else { message += " Oof ouch owie " ;} } message)
 
